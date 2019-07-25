@@ -1,0 +1,2 @@
+PROCESS1=/home/arpit/test1/fileHandeling/P1/.env
+PROCESS2=/home/arpit/test1/fileHandeling/P2/.env
