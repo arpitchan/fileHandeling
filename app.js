@@ -81,33 +81,9 @@ app.get('/setEnvironment/:process/:key/:value', async (req, res) => {
 
 app.get('/getEnvironment/:process', async (req, res) => {
     const process = req.params.process; // given process
-    const Obj = {}; // will hold key value pair for the given process
     try {
-        let contents = fs.readFileSync('sample-config.txt', 'utf8');
-
-        if (!contents) {
-            throw "Nothing to read"
-        }
-
-
-        contents = contents.split("\n").map(element => {
-            return element.split("=")
-        })
-
-
-        contents.forEach(el => {
-            Obj[el[0]] = el[1];
-        })
-
-        const envVars = dotenv.config({ path: Obj[process] })
-
-        if (envVars.error) {
-            throw result.error
-        }
-
-        res.send(JSON.stringify({ [process]: envVars.parsed }));
-
-
+        const envVars = await readEnvFile(process); // object of env vars
+        res.send(envVars);
     } catch (error) {
         res.send(error)
     }
